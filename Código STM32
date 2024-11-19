@@ -70,16 +70,18 @@ uint8_t cambioEstadoBTN2=0;
 // Librerías donde están las imagenes para la pantalla
 extern uint8_t pista[];
 extern uint8_t toad[];
+extern uint8_t yoshi[];
+extern uint8_t peach[];
 extern uint8_t dialogo[];
 // Guarda el valor que envía la ESP32
-uint8_t bufferBTN[3];
+uint8_t bufferBTN[1];
 char valorPrint[100];
 // Variable que guarda el valor obtenido por el sensor I2C
 uint32_t valorSensor=0;
 // Variable que guarda la conversión del valor del sensor a tipo texto
 char valorPantalla[10];
 // Variable que guarda el estado del neopixel
-uint8_t neopixel[0];
+uint8_t neopixel[1];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -144,6 +146,10 @@ int main(void)
   LCD_Bitmap(0,0,320,240, pista);
   // Toad
   LCD_Bitmap(100,175,70,66, toad);
+  // Yoshi
+  LCD_Bitmap(20,175,70,71, yoshi);
+  // Peach
+  LCD_Bitmap(200,175,71,65, peach);
   // Globo de diálogo
   LCD_Bitmap(90,80,70,83, dialogo);
   //FillRect(0,0,319,329,0xFFFF);
@@ -155,7 +161,7 @@ int main(void)
   {
 	  neopixel[0]=1;
 	  HAL_UART_Transmit(&huart3, neopixel, 1, HAL_MAX_DELAY);
-	  HAL_Delay(2000);
+	  HAL_Delay(1000);
 	  // Imprimer el dato obtenido del ESP32 por medio de UART2
 	  if(cambioEstadoBTN1==1){
 		  // Notifica al usuario la opción que ha escogido
@@ -167,7 +173,7 @@ int main(void)
 		  neopixel[0]=2;
 		  //Transmite el dato que hace que se encienda el neopixel
 		  HAL_UART_Transmit(&huart3, neopixel, 1, HAL_MAX_DELAY);
-		  HAL_Delay(2000);
+		  HAL_Delay(100);
 		  // Conversión de tipo uint a char para que se muestre en la pantalla
 		  //sprintf(valorPantalla, "%lu", (unsigned long int)(*bufferBTN));
 		  // Muestra en la pantalla ili9341
@@ -181,7 +187,7 @@ int main(void)
 		  HAL_Delay(500);
 		  neopixel[0]=3;
 		  HAL_UART_Transmit(&huart3, neopixel, 1, HAL_MAX_DELAY);
-		  HAL_Delay(2000);
+		  HAL_Delay(1000);
 		  // Montar SD
 		  fres = f_mount(&fs, "/", 0);
 		  if (fres == FR_OK) {
